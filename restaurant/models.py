@@ -8,6 +8,13 @@ class Booking(models.Model):
     reservation_date = models.DateField()
     reservation_slot = models.SmallIntegerField(default=10)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['reservation_date', 'reservation_slot'], 
+                name='unique_reservation_per_slot'
+            )]
+        
     def clean(self):
         if not self.first_name.strip():
             raise ValidationError({'first_name': 'First Name cannot be empty.'})

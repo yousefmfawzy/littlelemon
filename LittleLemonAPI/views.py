@@ -3,7 +3,7 @@ from rest_framework.response        import Response
 from rest_framework.permissions     import IsAdminUser,AllowAny,IsAuthenticated
 from django.contrib.auth.models     import Group, User
 from rest_framework                 import status , filters
-from rest_framework.views           import APIView
+# from rest_framework.views           import APIView
 from rest_framework.generics        import ListAPIView,RetrieveUpdateAPIView , RetrieveUpdateDestroyAPIView
 from .models                        import Order, OrderItem, Cart
 from .serializers                   import MenuItemSerializer , singleMenuItemSerializer , UserSerializer
@@ -14,13 +14,15 @@ from django_filters.rest_framework  import DjangoFilterBackend
 from django.shortcuts               import get_object_or_404
 import json
 from datetime import datetime
+from django.core import serializers
+from restaurant.forms import BookingForm
 #import traceback
 
 
 class book(RetrieveUpdateDestroyAPIView):
     queryset = Booking.objects.all()
     serializer_class = Bookingserializer
-
+    
     def get(self, request, *args, **kwargs):
         first_name = request.data.get("first_name")  # Use query_params for GET requests
         if request.user.is_staff or request.user.is_superuser:
@@ -43,30 +45,27 @@ class book(RetrieveUpdateDestroyAPIView):
         return Response(
         {"message": "Missing 'first_name' query parameter. If you are a staff member, please authenticate."},
         status=status.HTTP_400_BAD_REQUEST )
-
-# class booking_api(RetrieveUpdateDestroyAPIView):
-#     def get (request):
-#         date = request.GET.get('date')
-#         bookings = Booking.objects.all().filter(reservation_date=date)
-#         booking_json = serializers.serialize('json', bookings)
-#         return Response(booking_json, content_type='application/json')
+    
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            # Use DRF's request.data to get JSON data from the request body
+            data = request.data
             
-#     def post(request):
-#         if request.method == 'POST':
-#             data = json.load(request)
-#             exist = Booking.objects.filter(reservation_date=data['reservation_date']).filter(
-#                 reservation_slot=data['reservation_slot']).exists()
-#             if exist==False:
-#                 booking = Booking(
-#                     first_name=data['first_name'],
-#                     reservation_date=data['reservation_date'],
-#                     reservation_slot=data['reservation_slot'],
-#                 )
-#                 booking.save()
-#                 return Response({'status': 'success'})
-#             else:
-#                 return Response({'error': 1, 'message': 'Slot already booked'})
-   
+            # Validate data using BookingForm
+            form = BookingForm(data)
+            if form.is_valid():
+                form.save()
+                return Response({'message': 'Booking successful'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error': 'Invalid form data', 'details': form.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+    # def delete (request):
+      
     
 
 
