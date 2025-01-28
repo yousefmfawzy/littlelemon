@@ -1,16 +1,19 @@
-# from django.http import HttpResponse
-from django.shortcuts import render
 from .forms import BookingForm
 from .models import Menu
 from django.core import serializers
 from .models import Booking
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse ,JsonResponse
+from django.http import HttpResponse ,JsonResponse ,HttpResponseRedirect , HttpResponseForbidden
+from django.shortcuts import render
 import json
+from django.contrib.auth import authenticate, login
+
+
 
 # Create your views here.
 def home(request):
+
     return render(request, 'index.html')
 
 
@@ -46,7 +49,6 @@ def reservations(request):
 
 
 
-
 def bookings(request):
     date = request.GET.get('date', datetime.today().strftime('%Y-%m-%d'))
     try:
@@ -76,3 +78,21 @@ def book(request):
     return render(request, 'book.html', context)
 
 
+
+@csrf_exempt
+def sign_in(request):
+    error = None
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
+            error = "Invalid username or password."
+        elif user.is_staff:
+            error = 'Staff not authorized to login'
+        else:
+            login(request, user)
+            return HttpResponseRedirect('/')  # Redirect to home on success
+
+    return render(request, 'sign_in.html', {'error': error})

@@ -64,7 +64,25 @@ class book(RetrieveUpdateDestroyAPIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         
-    # def delete (request):
+    def delete (self,request):
+        first_name = request.data.get("first_name")  # Use query_params for GET requests
+        if not first_name:
+            return Response(
+                {"message": "Parameter 'first_name' is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        bookings = Booking.objects.filter(first_name=first_name)
+        if not bookings.exists():
+                return Response(
+                    {"message": f"No bookings found for first_name: {first_name}"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        deleted_count = bookings.delete()[0]
+        return Response(
+            {"message": f"{deleted_count} booking(s) deleted successfully."},
+            status=status.HTTP_200_OK,)  
+      
       
     
 
