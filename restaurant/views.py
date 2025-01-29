@@ -1,7 +1,6 @@
 from .forms import BookingForm
-from .models import Menu
 from django.core import serializers
-from .models import Booking
+from .models import Booking, Menu
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse ,JsonResponse ,HttpResponseRedirect , HttpResponseForbidden
@@ -25,8 +24,7 @@ def about(request):
 
 def menu(request):
     menu_data = Menu.objects.all()
-    main_data = {"menu": menu_data}
-    return render(request, 'menu.html', {"menu": main_data})
+    return render(request, 'menu.html', {"menu": menu_data}) 
 
 
 

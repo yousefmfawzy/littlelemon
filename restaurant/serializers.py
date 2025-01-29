@@ -5,7 +5,6 @@ from rest_framework import serializers
 
   
         
-        
 class Menuserializer (serializers.ModelSerializer):
     class Meta :
         model = Menu

@@ -53,7 +53,7 @@ The Little Lemon API is a Django REST Framework-based backend system designed to
 ------------------------------------------
 **API Endpoints**
 
-### **Authentication and User Management**
+## **Authentication and User Management**
 
 
 | Endpoint                         | Method | Role  | Description                     |
@@ -65,6 +65,24 @@ The Little Lemon API is a Django REST Framework-based backend system designed to
 | `/api/groups/manager/users/`       | GET    | Admin | List all managers               |
 | `/api/groups/delivery-crew/users/` | GET    | Admin | List all delivery crew members  |
 | `/auth/token/login/  ` | POST | Admin | Generate Token by usernaem and password | 
+
+----------------------------------------------------------
+## Booking System
+
+### Endpoints
+
+| Endpoint      | Method | Role     | Description         |
+|--------------|--------|---------|---------------------|
+| `/api/book/` | GET    | Staff   | Retrieve bookings  |
+| `/api/book/` | POST   | Customer | Create new booking |
+| `/api/book/` | DELETE | Staff   | Delete booking     |
+|              |        |         |                     |
+
+#### **Booking**
+Tracks restaurant reservations with unique slot constraints.
+
+- **Fields:** `first_name`, `reservation_date`, `reservation_slot`
+- **Validation:** Unique reservation per time slot
 
 ----------------------------------------------------------
 ### **Category Endpoints**
@@ -84,6 +102,9 @@ The Little Lemon API is a Django REST Framework-based backend system designed to
 | `/api/menu-items/`      | POST          | Manager  | Add a new menu item.         |
 | `/api/menu-items/<id>/` | GET           | Public   | Retrieve a menu item by ID.  |
 | `/api/menu-items/<id>/` | PUT, DELETE   | Manager  | Update or delete a menu item.|
+|||||
+
+
 Features:
 Filtering and Sorting: Filter by title, price, category, or featured status.
 ```bash
@@ -187,53 +208,106 @@ GET /api/menu-items/?category=Beverages&ordering=-price
 ### Admin Features
 - View and manage menu items, categories, users, orders, and carts via the admin panel.
 
---------------------------------
-
-### Pre-Configured Users
-
-The following users are pre-configured for testing purposes:
-
-| Username   | Email             | Role          | Password |  User     |                Token                    |
-|------------|-------------------|---------------|----------|-----------|-------------------------------------|
-| manager    | manager@mail.com  | Manager       | 123      | superuser |f9e4e35ec3ccec3d866b1bccc9dd1c3c8661c2a1 |
-| manager2   | manager2@mail.com | Manager       | 123      | superuser |eb5c7009277d6be01b64da2b0fd60d895629cdf7 |
-| delivery   | delivery@mail.com | Delivery Crew | 123      | staffuser |
-| delivery2  | d@d.com           | Delivery Crew | 123      | staffuser |
-| customer   | c@c.co            | Customer      | 123      |   user    |
-
-**Note**:
-- Password validation rules were bypassed for testing purposes.
-- Update these credentials and implement stricter password policies for production environments.<br><br>
-
-
-**Command for Superuser Creation:**
-```bash
-python manage.py createsuperuser
-```
+---------------------------------
 ---------------------------------
 
-### Installed Dependencies
 
-The project uses the following dependencies:
+## Unit Tests
 
-| Dependency                               | Version  |
-|------------------------------------------|----------|
-| Django                                   | 5.1.2    |
-| djangorestframework                      | 3.15.2   |
-| djangorestframework-simplejwt            | 5.3.1    |
-| djoser                                   | 2.2.3    |
-| social-auth-app-django                   | 5.4.2    |
-| cryptography                             | 43.0.3   |
-| python3-openid                           | 3.2.0    |
+The project includes unit tests for the **Restaurant App** and **Little Lemon API**, covering models, forms, and views.
 
-**Install Dependencies**:
-Run the following command to install the dependencies from `requirements.txt`:
+### **Restaurant App Tests**
+Located in the `restaurant/tests/` directory:
+
+- **`test_forms.py`**: Tests for form validation.
+  - ✅ Valid form submissions
+  - ❌ Missing required fields
+  - ❌ Invalid reservation dates
+  - ❌ Negative reservation slots
+
+- **`test_models.py`**: Tests for database models.
+  - ✅ `Menu` model string representation
+  - ✅ `Category` model string representation
+  - ✅ `Booking` model string representation
+
+- **`test_views.py`**: Tests for application views.
+  - ✅ Home page loads correctly
+  - ✅ About page loads correctly
+  - ✅ Menu page displays items properly
+
+---
+
+### **Little Lemon API Tests**
+Located in the `LittleLemonAPI/tests/` directory:
+
+- **`test_models.py`**: Unit tests for API models.
+  - ✅ `Cart` model stores user-cart relationships correctly
+  - ✅ `Order` model supports delivery crew assignment
+  - ✅ `OrderItem` model maintains order details
+
+---
+
+### **Running Unit Tests**
+Run all tests using the following command:
 ```bash
-pip install -r requirements.txt
+python manage.py test
 ```
 
+---------------------------------
 
-Contributors
-Yousef Fawzy: Backend Developer
-For further queries, contact: youseffawzy249@gmail.com
-linkedin : https://www.linkedin.com/in/yousefmamdohfawzy/
+## Security Features
+
+- **JWT Authentication** with refresh tokens
+- **Role-based access control**
+- **Password validation rules**
+- **CSRF protection** for web forms
+- **Request throttling:**
+  - 20 requests/min for authenticated users
+  - 10 requests/min for anonymous users
+
+---
+
+## Frontend Features
+
+- **Responsive booking system**
+- **Dynamic menu display**
+- **User authentication flow**
+- **Real-time reservation availability**
+- **Admin dashboard integration**
+
+---
+
+## Updated Pre-Configured Users
+
+| Username  | Role           | Access Level         | Token Example          |
+|-----------|--------------|---------------------|------------------------|
+| manager   | Superuser     | Full permissions    | `f9e4e35ec3c...` |
+| delivery  | Delivery Crew | Order management    | `83ab31a96f...` |
+| customer  | Regular User  | Personal orders     | `e04baf0132...` |
+
+> **Security Note:** Always change default passwords in production environments.
+
+---
+
+## Deployment Notes
+
+- Set `DEBUG = False` in production
+- Configure proper **database settings**
+- Set up **HTTPS** with a valid SSL certificate
+- Use **environment variables** for secrets
+- Implement proper **CORS configuration**
+
+---
+
+## Contributors
+
+- **Yousef Fawzy** - Backend Developer  
+  📧 [youseffawzy249@gmail.com](mailto:youseffawzy249@gmail.com)  
+  🔗 [LinkedIn : in/yousefmamdohfawzy/](https://www.linkedin.com/in/yousefmamdohfawzy/)
+
+
+
+
+
+
+

@@ -2,11 +2,16 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 
+
+def validate_positive(value):
+    """Ensure the value is positive"""
+    if value < 1:
+        raise ValidationError("Reservation slot must be a positive number.")
 # Create your models here.
 class Booking(models.Model):
     first_name = models.CharField(max_length=200,null=False, blank=False)
     reservation_date = models.DateField()
-    reservation_slot = models.SmallIntegerField(default=10)
+    reservation_slot = models.SmallIntegerField(default=10,validators=[validate_positive])
 
     class Meta:
         constraints = [

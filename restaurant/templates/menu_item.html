@@ -7,14 +7,15 @@
       <span>
          <a href="{% url 'home' %}">Home</a> /
          <a href="{% url 'menu' %}">Menu</a>/
-         {{menu_item.name}}
+         {{menu_item.title}}
       </span>
       <!--Begin row-->
       <div class="row">
          <!--Begin col-->
+         
          <div class="column">
             <h2>
-                {{ menu_item.name }}
+                {{ menu_item.title }}
             </h2>
             <p>
                 {{ menu_item.menu_item_description }}
