@@ -42,6 +42,9 @@ class OrderItem(models.Model):
 
     class Meta:
         unique_together = ('order', 'menuitem')
+        
+    def __str__(self):
+        return f"{self.order.user.username} ordered {self.quantity} x {self.menuitem.title}"
     
     
 
