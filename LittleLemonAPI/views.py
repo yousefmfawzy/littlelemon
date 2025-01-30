@@ -3,7 +3,7 @@ from rest_framework.response        import Response
 from rest_framework.permissions     import IsAdminUser,AllowAny,IsAuthenticated
 from django.contrib.auth.models     import Group, User
 from rest_framework                 import status , filters
-# from rest_framework.views           import APIView
+# from rest_framework.views           import APIView 
 from rest_framework.generics        import ListAPIView,RetrieveUpdateAPIView , RetrieveUpdateDestroyAPIView
 from .models                        import Order, OrderItem, Cart
 from .serializers                   import MenuItemSerializer , singleMenuItemSerializer , UserSerializer
@@ -17,6 +17,8 @@ from datetime import datetime
 from django.core import serializers
 from restaurant.forms import BookingForm
 #import traceback
+from django.http import Http404
+
 
 
 class book(RetrieveUpdateDestroyAPIView):
@@ -24,7 +26,8 @@ class book(RetrieveUpdateDestroyAPIView):
     serializer_class = Bookingserializer
     
     def get(self, request, *args, **kwargs):
-        first_name = request.data.get("first_name")  # Use query_params for GET requests
+        #first_name = request.data.get("first_name")
+        first_name = request.query_params.get("first_name") # Use query_params for GET requests
         if request.user.is_staff or request.user.is_superuser:
             bookings = Booking.objects.all()  # Fetch all bookings for staff or superuser
             serializer = self.serializer_class(bookings, many=True)
@@ -453,8 +456,14 @@ class manage_order(RetrieveUpdateAPIView):
            
     def delete(self, request, order_id):
         # Fetch the order or return 404 if not found 
-        order = get_object_or_404(Order, id=order_id)
-        
+        try:
+            order = get_object_or_404(Order, id=order_id)
+        except Http404:
+            return Response(
+                {"error": f"Order with ID {order_id} not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
         item_id = request.data.get("item_id") 
         
         # Delete entire order 

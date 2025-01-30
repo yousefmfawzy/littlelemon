@@ -12,7 +12,7 @@ urlpatterns = [
    
     path('users/carts/menu-item/<int:menu_id>/', views.add_item_to_cart, name='add-item-to-cart'),
     path('users/carts/me/', views.view_cart, name='view-cart'), # if i make users/cart there is a conflict between the Djoser and my custom URL configurations. Specifically, Djoser uses the users path by default in its endpoints
-    path('users/carts/me/', views.flush_cart, name='flush-cart'),
+    path('users/carts/me/flush/', views.flush_cart, name='flush-cart'),
     
     path('orders/',views.orders,name='orders'),
     path('orders/<int:order_id>/', views.manage_order.as_view(),name='manage_order'),
