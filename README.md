@@ -18,7 +18,7 @@ The Little Lemon API is a Django REST Framework-based backend system designed to
 
 3- Django REST Framework
 
-4- PostgreSQL (optional, based on your configuration)
+4- Mysql (optional, based on your configuration)
 
 <br>
 
