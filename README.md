@@ -26,7 +26,7 @@ The Little Lemon API is a Django REST Framework-based backend system designed to
 
 1- Clone the repository:
 ``` bash
-    git clone <https://github.com/yousefmamdohfawzy/littlelemonapi.git>
+    git clone <https://github.com/yousefmfawzy/littlelemonapi.git>
     cd LittleLemon
 ```
 
@@ -303,7 +303,7 @@ python manage.py test
 
 - **Yousef Fawzy** - Backend Developer  
   📧 [youseffawzy249@gmail.com](mailto:youseffawzy249@gmail.com)  
-  🔗 [LinkedIn : in/yousefmamdohfawzy/](https://www.linkedin.com/in/yousefmamdohfawzy/)
+  🔗 [LinkedIn : in/yousefmfawzy/](https://www.linkedin.com/in/yousefmfawzy/)
 
 
 
