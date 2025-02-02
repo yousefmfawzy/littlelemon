@@ -3,7 +3,7 @@
 ## Overview
 
 
-The Little Lemon API is a Django REST Framework-based backend system designed to streamline restaurant operations. It provides endpoints for managing user roles, menu items, orders, and carts. This API ensures secure role-based access for Customers, Delivery Crew, Managers, and Admins, supporting essential features such as authentication, filtering, sorting, and throttling.
+The Little Lemon is a Django REST Framework-based backend system designed to streamline restaurant operations. It provides endpoints for managing user roles, menu items, orders, and carts. This API ensures secure role-based access for Customers, Delivery Crew, Managers, and Admins, supporting essential features such as authentication, filtering, sorting, and throttling.
 
 
 
@@ -26,7 +26,7 @@ The Little Lemon API is a Django REST Framework-based backend system designed to
 
 1- Clone the repository:
 ``` bash
-    git clone <https://github.com/yousefmfawzy/littlelemonapi.git>
+    git clone <https://github.com/yousefmfawzy/littlelemon.git>
     cd LittleLemon
 ```
 
