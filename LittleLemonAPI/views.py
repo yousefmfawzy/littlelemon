@@ -16,7 +16,6 @@ import json
 from datetime import datetime
 from django.core import serializers
 from restaurant.forms import BookingForm
-#import traceback
 from django.http import Http404
 
 
@@ -88,12 +87,6 @@ class book(RetrieveUpdateDestroyAPIView):
       
       
     
-
-
-     
-
-
-
 @api_view(['GET','POST','DELETE'])
 @permission_classes([AllowAny])
 def categories(request):
@@ -415,7 +408,6 @@ def orders(request):
                 Customer_serializer = OrderSerializer(customer_orders , many=True)
                 return Response (Customer_serializer.data , status=status.HTTP_200_OK)
             
-
 
 class manage_order(RetrieveUpdateAPIView):
     permission_classes= [IsAuthenticated]
