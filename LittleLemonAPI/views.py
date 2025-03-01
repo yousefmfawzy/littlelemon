@@ -3,7 +3,6 @@ from rest_framework.response        import Response
 from rest_framework.permissions     import IsAdminUser,AllowAny,IsAuthenticated
 from django.contrib.auth.models     import Group, User
 from rest_framework                 import status , filters
-# from rest_framework.views           import APIView 
 from rest_framework.generics        import ListAPIView,RetrieveUpdateAPIView , RetrieveUpdateDestroyAPIView
 from .models                        import Order, OrderItem, Cart
 from .serializers                   import MenuItemSerializer , singleMenuItemSerializer , UserSerializer
@@ -12,9 +11,6 @@ from restaurant.serializers         import Bookingserializer
 from .serializers                   import CartSerializer , OrderSerializer , OrderItemSerializer,CategorySerializer
 from django_filters.rest_framework  import DjangoFilterBackend
 from django.shortcuts               import get_object_or_404
-import json
-from datetime import datetime
-from django.core import serializers
 from restaurant.forms import BookingForm
 from django.http import Http404
 
